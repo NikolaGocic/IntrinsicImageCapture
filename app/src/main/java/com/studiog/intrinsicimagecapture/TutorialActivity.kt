@@ -25,7 +25,7 @@ class TutorialActivity : AppCompatActivity() {
         videoView.setMediaController(mediaController)
         videoView.seekTo(2000)
 
-        val settingUpUri2 = Uri.parse("android.resource://$packageName/${R.raw.capturingimages}")
+        val settingUpUri2 = Uri.parse("android.resource://$packageName/${R.raw.video2}")
         videoView2.setVideoURI(settingUpUri2)
         videoView2.setMediaController(mediaController2)
         videoView2.seekTo(4000)
