@@ -19,8 +19,9 @@ class ImageProcessingActivity : AppCompatActivity() {
         val  webSettings : WebSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        webView.webViewClient=WebViewClient()
-        webView.loadUrl("https://portal.quantcyte.org/login")
+        //webView.webViewClient=WebViewClient()
+        webView.loadUrl("https://quantcyte.org")
+
 
     }
 

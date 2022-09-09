@@ -11,20 +11,24 @@ class TutorialActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tutorial)
 
-        var videoView: VideoView = findViewById(R.id.videoView)
+        val videoView: VideoView =findViewById(R.id.videoView)
+        val videoView2: VideoView =findViewById(R.id.videoView2)
 
         val mediaController = MediaController(this)
         mediaController.setAnchorView(videoView)
 
-        val settingUpUri = Uri.parse("android.resource://$packageName/${R.raw.settingupdiffuser}")
+        val mediaController2 = MediaController(this)
+        mediaController2.setAnchorView(videoView2)
 
-
+        val settingUpUri = Uri.parse("android.resource://$packageName/${R.raw.video1}")
         videoView.setVideoURI(settingUpUri)
         videoView.setMediaController(mediaController)
-        videoView.requestFocus()
-        videoView.start()
+        videoView.seekTo(2000)
 
-
+        val settingUpUri2 = Uri.parse("android.resource://$packageName/${R.raw.capturingimages}")
+        videoView2.setVideoURI(settingUpUri2)
+        videoView2.setMediaController(mediaController2)
+        videoView2.seekTo(4000)
 
     }
 }

@@ -1,20 +1,21 @@
 package com.studiog.intrinsicimagecapture.ui
 
+import android.widget.ImageButton
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.ExperimentalUnitApi
@@ -22,25 +23,18 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.studiog.intrinsicimagecapture.MainActivity
+import com.studiog.intrinsicimagecapture.R
 import com.studiog.intrinsicimagecapture.ui.theme.BackgroundDark
 import com.studiog.intrinsicimagecapture.ui.theme.BackgroundLight
 
 @OptIn(ExperimentalUnitApi::class)
 @Composable
 fun MainScreen(mainActivity: MainActivity, goToTutorial: (()->Unit)){
-    var text by remember { mutableStateOf("") }
+
+    Image(modifier= Modifier.fillMaxSize(),painter = painterResource(id = R.drawable.background2) , contentDescription ="", contentScale = ContentScale.FillBounds )
 
     Column(
-        modifier= Modifier
-            .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        BackgroundDark,
-                        BackgroundLight
-                    )
-                )
-            ),
+        modifier= Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
@@ -53,12 +47,11 @@ fun MainScreen(mainActivity: MainActivity, goToTutorial: (()->Unit)){
         )
 
         OutlinedTextField(
-            value = text,
+            value = mainActivity.imageName,
             textStyle = TextStyle(color = Color.Gray),
             onValueChange =
             {
-                text = it
-                mainActivity.setName(text)
+                mainActivity.imageName= it
             },
             placeholder = {
                 Text(
@@ -70,7 +63,9 @@ fun MainScreen(mainActivity: MainActivity, goToTutorial: (()->Unit)){
             },
             shape = RoundedCornerShape(8.dp),
             trailingIcon = {
-                //Icon(Icons.Sharp.Call, "", tint = Color.Gray)
+                IconButton(onClick = { mainActivity.recordAudio()}) {
+                    Icon(painterResource(id = R.drawable.icon_microphone), "", tint = Color.Gray)
+                }
             },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.White,

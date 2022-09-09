@@ -3,7 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/ngoci/AndroidStudioProjects/IntrinsicImageCapture/app/src/main/res/layout/activity_tutorial.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/ngoci/AndroidStudioProjects/IntrinsicImageCapture/app/src/main/res/layout/activity_splash.xml" value="0.36231884057971014" />
+        <entry key="..\:/Users/ngoci/AndroidStudioProjects/IntrinsicImageCapture/app/src/main/res/layout/activity_tutorial.xml" value="0.25" />
         <entry key="..\:/Users/ngoci/AndroidStudioProjects/IntrinsicImageCapture/app/src/main/res/xml/file_paths.xml" value="0.358695652173913" />
       </map>
     </option>

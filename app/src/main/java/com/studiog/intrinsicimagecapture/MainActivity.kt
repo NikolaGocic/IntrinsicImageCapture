@@ -12,11 +12,17 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.speech.RecognizerIntent
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -31,12 +37,14 @@ class MainActivity : ComponentActivity() {
 
     val REQUEST_CAPTURE_FOCUSED = 1
     val REQUEST_CAPTURE_DIFFUSED = 2
+    val REQUEST_RECORD_AUDIO = 3
 
     val REQUEST_CAMERA = 200
 
     var mCurrentPhotoPath: String = ""
     var imageUri: Uri? = null
-    var imageName: String = "default"
+
+    var imageName by mutableStateOf("")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +54,7 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxSize()
             ) {
                 MainScreen(mainActivity = this, goToTutorial = {goToTutorial()})
+                BackHandler(enabled = true) {}
             }
         }
     }
@@ -159,6 +168,11 @@ class MainActivity : ComponentActivity() {
                 saveImage(rotate(bitmap, orientation!!), "D_$imageName.jpeg")
             }
         }
+
+        if(requestCode == REQUEST_RECORD_AUDIO && resultCode == RESULT_OK && data != null) {
+            val text: ArrayList<String> = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS) as ArrayList<String>
+            imageName = text[0]
+        }
     }
 
     fun goToImageProcessingActivity() {
@@ -169,6 +183,13 @@ class MainActivity : ComponentActivity() {
     fun goToTutorial() {
         val intent = Intent(this, TutorialActivity::class.java)
         startActivity(intent)
+    }
+
+    fun recordAudio() {
+        var intent: Intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"en-US")
+        startActivityForResult(intent, REQUEST_RECORD_AUDIO)
     }
 }
 
