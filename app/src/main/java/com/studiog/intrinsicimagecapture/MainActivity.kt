@@ -9,6 +9,7 @@ import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -40,11 +41,14 @@ class MainActivity : ComponentActivity() {
     val REQUEST_RECORD_AUDIO = 3
 
     val REQUEST_CAMERA = 200
+    val REQUEST_STORAGE = 100
 
     var mCurrentPhotoPath: String = ""
     var imageUri: Uri? = null
 
     var imageName by mutableStateOf("")
+    var showDialog by mutableStateOf(false)
+    var showText by mutableStateOf("")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,14 +75,32 @@ class MainActivity : ComponentActivity() {
             REQUEST_CAMERA -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if ((ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)) {
-                        captureImage(REQUEST_CAPTURE_FOCUSED)
+                        //captureImage(REQUEST_CAPTURE_FOCUSED)
+                        externalStorage()
+
                     }
                 } else {
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
                 }
-                return
+            }
+            REQUEST_STORAGE -> {
+                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    captureImage(REQUEST_CAPTURE_FOCUSED)
+                } else {
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+                }
             }
         }
+    }
+
+    fun externalStorage() {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_STORAGE)
+            } else {
+                captureImage(REQUEST_CAPTURE_FOCUSED)
+            }
+        } else captureImage(REQUEST_CAPTURE_FOCUSED)
     }
 
     fun captureImage(code: Int) {
@@ -167,6 +189,8 @@ class MainActivity : ComponentActivity() {
                 val orientation: Int? = exif?.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
                 saveImage(rotate(bitmap, orientation!!), "D_$imageName.jpeg")
             }
+
+            showDialog("$imageName image pair saved to Pictures>Intrinsic!")
         }
 
         if(requestCode == REQUEST_RECORD_AUDIO && resultCode == RESULT_OK && data != null) {
@@ -176,8 +200,12 @@ class MainActivity : ComponentActivity() {
     }
 
     fun goToImageProcessingActivity() {
-        val intent = Intent(this, ImageProcessingActivity::class.java)
-        startActivity(intent)
+//        val intent = Intent(this, ImageProcessingActivity::class.java)
+//        startActivity(intent)
+
+        val myIntent: Intent =  Intent(Intent.ACTION_VIEW, Uri.parse("https://portal.quantcyte.org/"));
+        startActivity(myIntent);
+
     }
 
     fun goToTutorial() {
@@ -190,6 +218,15 @@ class MainActivity : ComponentActivity() {
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"en-US")
         startActivityForResult(intent, REQUEST_RECORD_AUDIO)
+    }
+
+    fun showDialog(text:String){
+        showDialog = true
+        showText = text
+    }
+
+    fun dissmissDialog(){
+        showDialog = false
     }
 }
 

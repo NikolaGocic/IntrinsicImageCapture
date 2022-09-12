@@ -1,15 +1,12 @@
 package com.studiog.intrinsicimagecapture.ui
 
-import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -21,8 +18,6 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.studiog.intrinsicimagecapture.R
 import com.studiog.intrinsicimagecapture.SplashActivity
-import com.studiog.intrinsicimagecapture.ui.theme.BackgroundDark
-import com.studiog.intrinsicimagecapture.ui.theme.BackgroundLight
 
 @OptIn(ExperimentalUnitApi::class)
 @Composable
@@ -62,14 +57,14 @@ fun SplashScreen(splashActivity: SplashActivity, rnds: Int){
         
         Row(
             modifier=Modifier.weight(1f).padding(bottom=15.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
             val f: Int = splashActivity.resources.getIdentifier("f_$rnds" , "drawable", splashActivity.getPackageName());
             val d: Int = splashActivity.resources.getIdentifier("d_$rnds" , "drawable", splashActivity.getPackageName());
 
-            Image(modifier= Modifier.padding(start = 20.dp,end=5.dp).weight(1f).border(2.dp,Color.White),painter = painterResource(id = f) , contentDescription ="" )
-            Image(modifier= Modifier.padding(start = 5.dp,end=20.dp).weight(1f).border(2.dp,Color.White),painter = painterResource(id = d) , contentDescription ="" )
+            Image(modifier= Modifier.fillMaxHeight().padding(end=5.dp).border(2.dp,Color.White),painter = painterResource(id = f) , contentDescription ="", contentScale = ContentScale.Fit )
+            Image(modifier= Modifier.fillMaxHeight().padding(start=5.dp).border(2.dp,Color.White),painter = painterResource(id = d) , contentDescription ="", contentScale = ContentScale.Fit )
         }
 
         val i: Int = splashActivity.resources.getIdentifier("i_$rnds" , "drawable", splashActivity.getPackageName());

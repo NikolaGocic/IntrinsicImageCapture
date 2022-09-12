@@ -16,8 +16,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="30dp"
         android:textColor="@color/white"
         android:textStyle="bold"/>
 
@@ -28,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp">
         <VideoView
@@ -41,14 +41,14 @@
     <TextView android:id="@+id/title2"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="How to Attach a Diffuser to a Cell Phone"
+        android:text="How to Use a Diffuser with a Cell Phone"
         android:textSize="25dp"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/realative"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="30dp"
         android:textColor="@color/white"
         android:textStyle="bold"/>
 
@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@id/title2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp">
         <VideoView
