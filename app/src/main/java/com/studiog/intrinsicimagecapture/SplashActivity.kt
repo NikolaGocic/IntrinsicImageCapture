@@ -28,6 +28,7 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed(Runnable() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up )
         }, 4000)
 
     }

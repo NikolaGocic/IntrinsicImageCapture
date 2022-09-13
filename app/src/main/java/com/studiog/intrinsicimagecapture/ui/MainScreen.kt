@@ -73,6 +73,11 @@ fun MainScreen(mainActivity: MainActivity, goToTutorial: (()->Unit)){
                         .height(45.dp)
                         .width(120.dp),
                     onClick = { goToTutorial() },
+                    elevation = ButtonDefaults.elevation(
+                        defaultElevation = 15.dp,
+                        pressedElevation = 0.dp,
+                        disabledElevation = 0.dp
+                    ),
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = Grey )
                 ) {
@@ -130,6 +135,11 @@ fun MainScreen(mainActivity: MainActivity, goToTutorial: (()->Unit)){
                 .width(300.dp)
                 .padding(top = 10.dp),
                 onClick = { mainActivity.camera() },
+                elevation = ButtonDefaults.elevation(
+                    defaultElevation = 15.dp,
+                    pressedElevation = 0.dp,
+                    disabledElevation = 0.dp
+                ),
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = LightBlue)) {
                 Text(
@@ -155,6 +165,11 @@ fun MainScreen(mainActivity: MainActivity, goToTutorial: (()->Unit)){
             .height(55.dp)
             .width(240.dp),
             onClick = { mainActivity.goToImageProcessingActivity() },
+            elevation = ButtonDefaults.elevation(
+                defaultElevation = 15.dp,
+                pressedElevation = 0.dp,
+                disabledElevation = 0.dp
+            ),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = BackgroundDark)) {
             Text(

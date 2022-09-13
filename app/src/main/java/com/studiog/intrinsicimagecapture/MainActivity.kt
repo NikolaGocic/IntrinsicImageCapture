@@ -211,6 +211,7 @@ class MainActivity : ComponentActivity() {
     fun goToTutorial() {
         val intent = Intent(this, TutorialActivity::class.java)
         startActivity(intent)
+        overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up )
     }
 
     fun recordAudio() {

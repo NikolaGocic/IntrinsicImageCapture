@@ -4,11 +4,21 @@ plugins {
 }
 
 android {
+
+    signingConfigs {
+        release_config {
+            storeFile file('C:\\Users\\ngoci\\AndroidStudioProjects\\IntrinsicImageCapture\\store.jks')
+            storePassword 'nikola1997'
+            keyAlias 'intrinsic'
+            keyPassword 'nikola1997'
+        }
+    }
+
     compileSdk 33
 
     defaultConfig {
         applicationId "com.studiog.intrinsicimagecapture"
-        minSdk 25
+        minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -22,6 +32,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release_config
             applicationVariants.all { variant ->
                 variant.outputs.all { output ->
                     outputFileName = "IntrinsicImageCapture" + "${variant.versionCode}.apk"
