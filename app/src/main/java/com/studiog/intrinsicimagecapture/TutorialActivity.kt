@@ -14,6 +14,9 @@ class TutorialActivity : AppCompatActivity() {
 
     lateinit var videoView: VideoView
     lateinit var videoView2: VideoView
+    lateinit var next: ImageButton
+    lateinit var mediaController2: MediaController
+    lateinit var mediaController: MediaController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,10 +25,10 @@ class TutorialActivity : AppCompatActivity() {
         videoView =findViewById(R.id.videoView)
         videoView2 =findViewById(R.id.videoView2)
 
-        val mediaController = MediaController(this)
+        mediaController = MediaController(this)
         mediaController.setAnchorView(videoView)
 
-        val mediaController2 = MediaController(this)
+        mediaController2 = MediaController(this)
         mediaController2.setAnchorView(videoView2)
 
         val settingUpUri = Uri.parse("android.resource://$packageName/${R.raw.video1}")
@@ -38,7 +41,7 @@ class TutorialActivity : AppCompatActivity() {
         videoView2.setMediaController(mediaController2)
         videoView2.seekTo(4000)
 
-        val next: ImageButton = findViewById(R.id.slideShow)
+        next = findViewById(R.id.slideShow)
         next.setOnClickListener {
             goToGallery()
         }
@@ -55,5 +58,7 @@ class TutorialActivity : AppCompatActivity() {
         super.onBackPressed()
         overridePendingTransition( R.anim.slide_out_down,R.anim.slide_in_down)
     }
+
+
 
 }

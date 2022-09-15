@@ -24,12 +24,6 @@ class ProcessingGallery : AppCompatActivity() {
         }
     }
 
-    fun goToGallery(){
-        val intent = Intent(this, ProcessingGallery::class.java)
-        startActivity(intent)
-        overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up )
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
         val intent = Intent(this, MainActivity::class.java)

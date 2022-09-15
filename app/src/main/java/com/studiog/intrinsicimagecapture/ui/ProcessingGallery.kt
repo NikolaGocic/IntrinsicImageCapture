@@ -39,7 +39,7 @@ fun ProcessingGallery(processingGallery: ProcessingGallery){
         var picture = remember { mutableStateOf(1) }
 
         Text(
-            text = "How to go through Image Processing",
+            text = "How to go Process Images",
             style = TextStyle(color = Color.White),
             fontSize = TextUnit(25F, TextUnitType.Sp),
             fontWeight = FontWeight.Bold,
@@ -48,14 +48,14 @@ fun ProcessingGallery(processingGallery: ProcessingGallery){
         )
 
         Image(
-            modifier= Modifier.fillMaxWidth().padding(start=10.dp,end=10.dp),
-            contentScale = ContentScale.FillWidth,
-            painter = painterResource(id = processingGallery.resources.getIdentifier("gal_${picture.value}" , "drawable", processingGallery.getPackageName())) ,
+            modifier= Modifier.fillMaxWidth().padding(start=10.dp,end=10.dp).weight(1f).border(2.dp,Color.White),
+            contentScale = ContentScale.FillBounds,
+            painter = painterResource(id = processingGallery.resources.getIdentifier("gallery_${picture.value}" , "drawable", processingGallery.getPackageName())) ,
             contentDescription =""
         )
 
         Row(
-            modifier=Modifier.fillMaxWidth().padding(top=20.dp),
+            modifier=Modifier.fillMaxWidth().padding(top=20.dp,bottom=20.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {

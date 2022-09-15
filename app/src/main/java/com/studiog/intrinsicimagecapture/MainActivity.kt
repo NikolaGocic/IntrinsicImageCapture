@@ -58,7 +58,6 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxSize()
             ) {
                 MainScreen(mainActivity = this, goToTutorial = {goToTutorial()})
-                BackHandler(enabled = true) {}
             }
         }
     }
@@ -228,6 +227,10 @@ class MainActivity : ComponentActivity() {
 
     fun dissmissDialog(){
         showDialog = false
+    }
+
+    override fun onBackPressed() {
+        this.finishAffinity()
     }
 }
 
