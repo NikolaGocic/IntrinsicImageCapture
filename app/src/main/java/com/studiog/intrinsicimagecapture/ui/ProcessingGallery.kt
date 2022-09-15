@@ -48,7 +48,7 @@ fun ProcessingGallery(processingGallery: ProcessingGallery){
         )
 
         Image(
-            modifier= Modifier.fillMaxWidth().padding(start=10.dp,end=10.dp).weight(1f).border(2.dp,Color.White),
+            modifier= Modifier.fillMaxWidth().padding(start=20.dp,end=20.dp).weight(1f).border(2.dp,Color.White),
             contentScale = ContentScale.FillBounds,
             painter = painterResource(id = processingGallery.resources.getIdentifier("gallery_${picture.value}" , "drawable", processingGallery.getPackageName())) ,
             contentDescription =""
