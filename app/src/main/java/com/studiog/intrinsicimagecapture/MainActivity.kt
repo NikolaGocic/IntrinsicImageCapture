@@ -207,6 +207,15 @@ class MainActivity : ComponentActivity() {
 
     }
 
+    fun goToIntrinsicChallangeSubmitions() {
+//        val intent = Intent(this, ImageProcessingActivity::class.java)
+//        startActivity(intent)
+
+        val myIntent: Intent =  Intent(Intent.ACTION_VIEW, Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSf5hFeKHlg7tphUjhKVnNs_8BIiyG4PkID3GbFIs-pvmU0sgA/viewform"));
+        startActivity(myIntent);
+
+    }
+
     fun goToTutorial() {
         val intent = Intent(this, TutorialActivity::class.java)
         startActivity(intent)

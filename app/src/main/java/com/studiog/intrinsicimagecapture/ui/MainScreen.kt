@@ -21,10 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.studiog.intrinsicimagecapture.MainActivity
 import com.studiog.intrinsicimagecapture.R
-import com.studiog.intrinsicimagecapture.ui.theme.BackgroundDark
-import com.studiog.intrinsicimagecapture.ui.theme.BackgroundLight
-import com.studiog.intrinsicimagecapture.ui.theme.Grey
-import com.studiog.intrinsicimagecapture.ui.theme.LightBlue
+import com.studiog.intrinsicimagecapture.ui.theme.*
 
 @OptIn(ExperimentalUnitApi::class)
 @Composable
@@ -79,7 +76,7 @@ fun MainScreen(mainActivity: MainActivity, goToTutorial: (()->Unit)){
                         disabledElevation = 0.dp
                     ),
                     shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Grey )
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Yellow )
                 ) {
                     Text(
                         text = "How to...",
@@ -176,6 +173,24 @@ fun MainScreen(mainActivity: MainActivity, goToTutorial: (()->Unit)){
                 style = TextStyle(color = Color.White),
                 fontSize = TextUnit(20F, TextUnitType.Sp),
                 text= "Image Processing"
+            )
+        }
+
+        Button(modifier= Modifier
+            .height(55.dp)
+            .width(240.dp),
+            onClick = { mainActivity.goToIntrinsicChallangeSubmitions() },
+            elevation = ButtonDefaults.elevation(
+                defaultElevation = 15.dp,
+                pressedElevation = 0.dp,
+                disabledElevation = 0.dp
+            ),
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Grey )) {
+            Text(
+                style = TextStyle(color = Color.White),
+                fontSize = TextUnit(20F, TextUnitType.Sp),
+                text= "Intrinsic Challenge"
             )
         }
 
