@@ -9,49 +9,32 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.MediaController
 import android.widget.VideoView
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.studiog.intrinsicimagecapture.ui.TutorialScreen
 
 class TutorialActivity : AppCompatActivity() {
 
-    lateinit var videoView: VideoView
-    lateinit var videoView2: VideoView
-    lateinit var next: ImageButton
-    lateinit var mediaController2: MediaController
-    lateinit var mediaController: MediaController
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tutorial)
-
-        videoView =findViewById(R.id.videoView)
-        videoView2 =findViewById(R.id.videoView2)
-
-        mediaController = MediaController(this)
-        mediaController.setAnchorView(videoView)
-
-        mediaController2 = MediaController(this)
-        mediaController2.setAnchorView(videoView2)
-
-        val settingUpUri = Uri.parse("android.resource://$packageName/${R.raw.video1}")
-        videoView.setVideoURI(settingUpUri)
-        videoView.setMediaController(mediaController)
-        videoView.seekTo(2000)
-
-        val settingUpUri2 = Uri.parse("android.resource://$packageName/${R.raw.video2}")
-        videoView2.setVideoURI(settingUpUri2)
-        videoView2.setMediaController(mediaController2)
-        videoView2.seekTo(4000)
-
-        next = findViewById(R.id.slideShow)
-        next.setOnClickListener {
-            goToGallery()
+        setContent{
+            TutorialScreen(this)
         }
-
     }
 
     fun goToGallery(){
         val intent = Intent(this, ProcessingGallery::class.java)
         startActivity(intent)
         overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up )
+    }
+
+    fun goToMain(){
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onBackPressed() {

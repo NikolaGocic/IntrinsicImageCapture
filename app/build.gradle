@@ -75,4 +75,6 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.1'
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+    implementation 'com.google.android.exoplayer:exoplayer:2.14.1'
 }

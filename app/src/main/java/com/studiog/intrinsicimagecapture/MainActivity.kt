@@ -1,6 +1,9 @@
 package com.studiog.intrinsicimagecapture
 
 import android.Manifest
+import android.content.ContentResolver
+import android.content.ContentUris
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -13,16 +16,15 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.MediaStore.Images
 import android.speech.RecognizerIntent
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
@@ -129,11 +131,18 @@ class MainActivity : ComponentActivity() {
             val file: File = File(dir,name)
             val fOut = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut)
+            galleryAddPic(file)
             fOut.flush()
             fOut.close()
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun galleryAddPic(file :File) {
+        val mediaScanIntent:Intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+        mediaScanIntent.setData(Uri.fromFile(file))
+        this.sendBroadcast(mediaScanIntent)
     }
 
     fun rotate(bitmap: Bitmap,orientation: Int?): Bitmap {
@@ -166,8 +175,11 @@ class MainActivity : ComponentActivity() {
                 e.printStackTrace()
             }
 
-            val orientation: Int? = exif?.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
-            saveImage(rotate(bitmap, orientation!!), "F_$imageName.jpeg")
+            AsyncTask.execute {
+                val orientation: Int? = exif?.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
+                saveImage(rotate(bitmap, orientation!!), "F_$imageName.jpeg")
+            }
+
 
             captureImage(REQUEST_CAPTURE_DIFFUSED)
         }
