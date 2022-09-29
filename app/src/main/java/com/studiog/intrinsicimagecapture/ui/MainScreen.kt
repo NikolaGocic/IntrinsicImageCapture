@@ -14,10 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle.Companion.Italic
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.ExperimentalUnitApi
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.*
 import androidx.compose.ui.window.Dialog
 import com.studiog.intrinsicimagecapture.MainActivity
 import com.studiog.intrinsicimagecapture.R
@@ -100,7 +97,7 @@ fun MainScreen(mainActivity: MainActivity, goToTutorial: (()->Unit)){
             OutlinedTextField(
                 modifier= Modifier.width(300.dp),
                 value = mainActivity.imageName,
-                textStyle = TextStyle(color = Color.Gray),
+                textStyle = TextStyle(fontSize = 20.sp,color = Color.Gray),
                 onValueChange =
                 {
                     mainActivity.imageName= it
@@ -124,7 +121,7 @@ fun MainScreen(mainActivity: MainActivity, goToTutorial: (()->Unit)){
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White,
                     focusedIndicatorColor =  Color.Transparent, //hide the indicator
-                    //unfocusedIndicatorColor = .....
+                    cursorColor = Color.LightGray
                 )
             )
             Button(modifier= Modifier

@@ -124,6 +124,8 @@ class MainActivity : ComponentActivity() {
         this.imageName = name
     }
 
+
+
     fun saveImage(bitmap:Bitmap,name:String) {
         try {
             val dir: File = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()+"/Intrinsic")
@@ -201,6 +203,7 @@ class MainActivity : ComponentActivity() {
                 saveImage(rotate(bitmap, orientation!!), "D_$imageName.jpeg")
             }
 
+            setName("")
             showDialog("$imageName image pair saved to Pictures>Intrinsic!")
         }
 

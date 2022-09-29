@@ -39,7 +39,7 @@ fun ProcessingGallery(processingGallery: ProcessingGallery){
         var picture = remember { mutableStateOf(1) }
 
         Text(
-            text = "How to go Process Images",
+            text = "How to Process an Image",
             style = TextStyle(color = Color.White),
             fontSize = TextUnit(25F, TextUnitType.Sp),
             fontWeight = FontWeight.Bold,

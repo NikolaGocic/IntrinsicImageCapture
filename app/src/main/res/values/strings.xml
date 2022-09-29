@@ -10,5 +10,5 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="paragraf1">Intrinsic Imaging is a method of removing all the illumination components from an image to reveal details that were previously hidden. This is accomplished by obtaining an image set of Focused and a Diffused images of the same field of view. These images are processed by subtracting the Diffused image from the Focused image producing the Intrinsic Image.</string>
-    <string name="paragraf2">The Tutorial videos in this App demonstrates how to attach the Diffuser to the cell phone and how to take the Focused and Diffused image sets. The three operations of this App to <b>name, obtain and process</b> the image sets is shown in a series screenshots.</string>
+    <string name="paragraf2">The Tutorial videos in this App demonstrates how to attach the Diffuser to the cell phone and how to take the Focused and Diffused image sets. The three operations of this App to <b>name, obtain and process</b> the image sets are shown in a series screenshots.</string>
 </resources>
