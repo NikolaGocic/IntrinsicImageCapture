@@ -179,7 +179,8 @@ class MainActivity : ComponentActivity() {
 
             AsyncTask.execute {
                 val orientation: Int? = exif?.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
-                saveImage(rotate(bitmap, orientation!!), "F_$imageName.jpeg")
+                val name:String = imageName
+                saveImage(rotate(bitmap, orientation!!), "F_$name.jpeg")
             }
 
 
@@ -200,10 +201,10 @@ class MainActivity : ComponentActivity() {
 
             AsyncTask.execute {
                 val orientation: Int? = exif?.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
-                saveImage(rotate(bitmap, orientation!!), "D_$imageName.jpeg")
+                val name:String = imageName
+                saveImage(rotate(bitmap, orientation!!), "D_$name.jpeg")
             }
 
-            setName("")
             showDialog("$imageName image pair saved to Pictures>Intrinsic!")
         }
 
@@ -251,6 +252,7 @@ class MainActivity : ComponentActivity() {
 
     fun dissmissDialog(){
         showDialog = false
+        setName("")
     }
 
     override fun onBackPressed() {
