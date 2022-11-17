@@ -1,9 +1,6 @@
 package com.studiog.intrinsicimagecapture
 
 import android.Manifest
-import android.content.ContentResolver
-import android.content.ContentUris
-import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -16,8 +13,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.provider.MediaStore.Images
 import android.speech.RecognizerIntent
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -31,6 +28,16 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.studiog.intrinsicimagecapture.ui.MainScreen
+import com.studiog.intrinsicimagecapture.ui.ProcessingAutomation
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -51,6 +58,25 @@ class MainActivity : ComponentActivity() {
     var imageName by mutableStateOf("")
     var showDialog by mutableStateOf(false)
     var showText by mutableStateOf("")
+    var loading by mutableStateOf(false)
+    var showImage by mutableStateOf(false)
+    lateinit var focused: File
+    var fDone by mutableStateOf(false)
+    lateinit var diffused: File
+    var dDone by mutableStateOf(false)
+    lateinit var responseBitmap: Bitmap
+    var responded by mutableStateOf(false)
+    var showPreview by mutableStateOf(true)
+
+    lateinit var fBitmap: Bitmap
+    lateinit var dBitmap: Bitmap
+
+    private val retrofit: Retrofit = Retrofit.Builder()
+        .baseUrl(Constants.BASE_API)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+    private val API: ServerAPI = retrofit.create(ServerAPI::class.java)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +85,8 @@ class MainActivity : ComponentActivity() {
             Surface(
                 modifier = Modifier.fillMaxSize()
             ) {
-                MainScreen(mainActivity = this, goToTutorial = {goToTutorial()})
+                if(showImage) ProcessingAutomation(mainActivity = this)
+                else MainScreen(mainActivity = this, goToTutorial = {goToTutorial()})
             }
         }
     }
@@ -126,14 +153,28 @@ class MainActivity : ComponentActivity() {
 
 
 
-    fun saveImage(bitmap:Bitmap,name:String) {
+    fun saveImage(bitmap:Bitmap,name:String, isFocused: Boolean) {
         try {
             val dir: File = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()+"/Intrinsic")
             dir.mkdir()
             val file: File = File(dir,name)
+
+            if(isFocused) {
+                focused = file
+                fDone = false
+                fBitmap = bitmap
+            }
+            else  {
+                diffused = file
+                dDone = false
+                dBitmap = bitmap
+            }
+
             val fOut = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut)
             galleryAddPic(file)
+            if(isFocused) fDone=true
+            else dDone=true
             fOut.flush()
             fOut.close()
         } catch (e: Exception) {
@@ -180,7 +221,7 @@ class MainActivity : ComponentActivity() {
             AsyncTask.execute {
                 val orientation: Int? = exif?.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
                 val name:String = imageName
-                saveImage(rotate(bitmap, orientation!!), "F_$name.jpeg")
+                saveImage(rotate(bitmap, orientation!!), "F_$name.jpeg",true)
             }
 
 
@@ -202,10 +243,11 @@ class MainActivity : ComponentActivity() {
             AsyncTask.execute {
                 val orientation: Int? = exif?.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
                 val name:String = imageName
-                saveImage(rotate(bitmap, orientation!!), "D_$name.jpeg")
+                saveImage(rotate(bitmap, orientation!!), "D_$name.jpeg",false)
             }
 
-            showDialog("$imageName image pair saved to Pictures>Intrinsic!")
+            //showDialog("$imageName image pair saved to Pictures>Intrinsic!")
+            showImage()
         }
 
         if(requestCode == REQUEST_RECORD_AUDIO && resultCode == RESULT_OK && data != null) {
@@ -248,6 +290,53 @@ class MainActivity : ComponentActivity() {
     fun showDialog(text:String){
         showDialog = true
         showText = text
+    }
+
+    fun showImage(){
+        showImage=true
+    }
+
+    fun processImages() {
+        loading=true
+
+        if(Constants.isNetworkAvailable(this)){
+
+            val reqF : RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"),focused)
+            val F: MultipartBody.Part = MultipartBody.Part.createFormData("F",focused.name,reqF)
+
+            val reqD : RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"),diffused)
+            val D: MultipartBody.Part = MultipartBody.Part.createFormData("D",diffused.name,reqD)
+
+            val name: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), "I_$imageName.jpeg")
+
+
+            val loginCall: Call<ResponseBody?>? = API.processImages(F,D,name)
+
+            loginCall?.enqueue(object: Callback<ResponseBody?> {
+                override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
+                    loading=false
+
+                    if(response.isSuccessful){
+                        val body:ResponseBody? = response.body()
+                        if(body==null)  Log.d("ERROR","ERROR")
+                        else{
+                            responseBitmap = BitmapFactory.decodeStream(response.body()!!.byteStream())
+                            showPreview = false
+                            responded = true
+                        }
+                    } else {
+                        Log.d("ERROR","ERROR")
+                    }
+                }
+                override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                    loading=false
+                    Toast.makeText(applicationContext,"There was an error with the server, plase try again!",Toast.LENGTH_SHORT).show()
+                }
+            })
+        } else{
+            loading=false
+            Toast.makeText(applicationContext,"No internet connection!",Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun dissmissDialog(){
